@@ -15,6 +15,7 @@ namespace Lepre\Cr\Client;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
+use Doctrine\DBAL\ParameterType;
 use Lepre\Cr\CredentialsInterface;
 use Lepre\Cr\Exception\DatabaseException;
 use Lepre\Cr\Exception\NodeTypeNotFoundException;
@@ -74,7 +75,7 @@ final class Client
                     'id' => $nodeTypeId,
                 ],
                 [
-                    'id' => \PDO::PARAM_INT,
+                    'id' => ParameterType::INTEGER,
                 ]
             );
 
