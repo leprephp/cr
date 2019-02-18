@@ -35,12 +35,12 @@ final class Client
     /**
      * @var Connection
      */
-    protected $connection;
+    private $connection;
 
     /**
      * @var CredentialsInterface
      */
-    protected $credentials;
+    private $credentials;
 
     /**
      * @param Connection           $connection
