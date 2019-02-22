@@ -4,11 +4,32 @@ php:
   - 7.1
   - 7.2
   - 7.3
-  - nightly
 
-before_script: composer install
+services:
+  - mysql
 
-script: composer test
+addons:
+  apt:
+    sources:
+      - mysql-5.7-trusty
+    packages:
+      - mysql-server
+      - mysql-client
+
+env:
+  - ENV=travis
+
+before_install:
+  - sudo mysql -e "use mysql; update user set authentication_string=PASSWORD('') where User='root'; update user set plugin='mysql_native_password';FLUSH PRIVILEGES;"
+  - sudo service mysql restart
+  - mysql -u root -e 'CREATE DATABASE lepre_cr;'
+  - mysql -u root lepre_cr < resources/db/mysql.sql
+
+before_script:
+  - composer install
+
+script:
+  - ./vendor/bin/phpunit --configuration phpunit.travis.xml
 
 after_success:
   - travis_retry php vendor/bin/php-coveralls
