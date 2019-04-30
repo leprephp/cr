@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Lepre\Cr;
 
-use Lepre\Cr\Client\Client;
+use Lepre\Cr\Client\ClientInterface;
 use Lepre\Cr\Exception\CRException;
 use Lepre\Cr\Exception\NodeTypeNotFoundException;
 
@@ -25,14 +25,14 @@ use Lepre\Cr\Exception\NodeTypeNotFoundException;
 final class NodeTypesManager
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
@@ -63,6 +63,7 @@ final class NodeTypesManager
      * @throws CRException
      *
      * @todo
+     * @codeCoverageIgnore
      */
     public function saveNodeType(NodeType $nodeType)
     {
@@ -78,6 +79,7 @@ final class NodeTypesManager
      * @throws CRException
      *
      * @todo
+     * @codeCoverageIgnore
      */
     public function renameNodeType(NodeType $nodeType, string $newName)
     {
@@ -92,6 +94,7 @@ final class NodeTypesManager
      * @throws CRException
      *
      * @todo
+     * @codeCoverageIgnore
      */
     public function deleteNodeType(NodeType $nodeType)
     {

@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Lepre\Cr;
 
-use Lepre\Cr\Client\Client;
+use Lepre\Cr\Client\ClientInterface;
 use Lepre\Cr\Exception\NodeNotFoundException;
 use Lepre\Cr\Query\NodesQueryInterface;
 
@@ -25,7 +25,7 @@ use Lepre\Cr\Query\NodesQueryInterface;
 final class Session implements SessionInterface
 {
     /**
-     * @var Client
+     * @var ClientInterface
      */
     private $client;
 
@@ -35,9 +35,9 @@ final class Session implements SessionInterface
     private $nodeTypesManager;
 
     /**
-     * @param Client $client
+     * @param ClientInterface $client
      */
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }

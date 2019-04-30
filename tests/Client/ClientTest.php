@@ -17,6 +17,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Lepre\Cr\Client\Client;
+use Lepre\Cr\Client\ClientInterface;
 use Lepre\Cr\CredentialsInterface;
 use Lepre\Cr\Exception\DatabaseException;
 use Lepre\Cr\Exception\NodeTypeNotFoundException;

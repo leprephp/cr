@@ -30,7 +30,7 @@ use Lepre\Cr\Query\NodesQueryInterface;
  *
  * @author Daniele De Nobili <danieledenobili@gmail.com>
  */
-final class Client
+final class Client implements ClientInterface
 {
     /**
      * @var Connection
@@ -53,7 +53,7 @@ final class Client
     }
 
     /**
-     * @return int
+     * @inheritDoc
      */
     public function getUserId(): int
     {
@@ -61,10 +61,7 @@ final class Client
     }
 
     /**
-     * @param int $nodeTypeId
-     * @return NodeType
-     * @throws DatabaseException
-     * @throws NodeTypeNotFoundException
+     * @inheritDoc
      */
     public function getNodeType(int $nodeTypeId): NodeType
     {
@@ -92,8 +89,7 @@ final class Client
     }
 
     /**
-     * @return array
-     * @throws DatabaseException
+     * @inheritDoc
      */
     public function getNodeTypes(): array
     {
@@ -114,13 +110,12 @@ final class Client
     }
 
     /**
-     * @param NodeType $nodeType
-     * @return Client
+     * @inheritDoc
      *
      * @todo
      * @codeCoverageIgnore
      */
-    public function saveNodeType(NodeType $nodeType): Client
+    public function saveNodeType(NodeType $nodeType): ClientInterface
     {
         trigger_error('The method ' . __METHOD__ . ' is not implemented.', E_USER_WARNING);
 
@@ -128,13 +123,12 @@ final class Client
     }
 
     /**
-     * @param NodeType $nodeType
-     * @return Client
+     * @inheritDoc
      *
      * @todo
      * @codeCoverageIgnore
      */
-    public function deleteNodeType(NodeType $nodeType): Client
+    public function deleteNodeType(NodeType $nodeType): ClientInterface
     {
         trigger_error('The method ' . __METHOD__ . ' is not implemented.', E_USER_WARNING);
 
@@ -142,7 +136,7 @@ final class Client
     }
 
     /**
-     * @return NodesQueryInterface
+     * @inheritDoc
      */
     public function createNodesQuery(): NodesQueryInterface
     {
@@ -150,9 +144,7 @@ final class Client
     }
 
     /**
-     * @param NodesQueryInterface $query
-     * @return array
-     * @throws DatabaseException
+     * @inheritDoc
      */
     public function findNodes(NodesQueryInterface $query): array
     {
@@ -169,13 +161,12 @@ final class Client
     }
 
     /**
-     * @param Node $node
-     * @return Client
+     * @inheritDoc
      *
      * @todo
      * @codeCoverageIgnore
      */
-    public function saveNode(Node $node): Client
+    public function saveNode(Node $node): ClientInterface
     {
         trigger_error('The method ' . __METHOD__ . ' is not implemented.', E_USER_WARNING);
 
@@ -183,13 +174,12 @@ final class Client
     }
 
     /**
-     * @param Node $node
-     * @return Client
+     * @inheritDoc
      *
      * @todo
      * @codeCoverageIgnore
      */
-    public function deleteNode(Node $node): Client
+    public function deleteNode(Node $node): ClientInterface
     {
         trigger_error('The method ' . __METHOD__ . ' is not implemented.', E_USER_WARNING);
 
