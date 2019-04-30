@@ -34,7 +34,7 @@ class NodeTypesManagerTest extends TestCase
      */
     private $nodeTypesManager;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this->createMock(ClientInterface::class);
         $this->nodeTypesManager = new NodeTypesManager($this->client);
