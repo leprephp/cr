@@ -1,15 +1,27 @@
 {
     "name": "lepre/cr",
     "description": "The Content Repository (CR) is the persistence layer of a CMS",
+    "keywords": [
+        "cr",
+        "content repository",
+        "cms",
+        "content management system",
+        "phpcr"
+    ],
     "homepage": "https://github.com/leprephp/cr",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
             "name": "Daniele De Nobili",
-            "email": "danieledenobili@gmail.com"
+            "email": "danieledenobili@gmail.com",
+            "role": "Developer"
         }
     ],
+    "support": {
+        "source": "https://github.com/leprephp/cr",
+        "issues": "https://github.com/leprephp/cr/issues"
+    },
     "require": {
         "php": "^7.1",
         "ext-pdo": "*",
