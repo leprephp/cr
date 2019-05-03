@@ -21,6 +21,7 @@ use Lepre\Cr\Client\ClientInterface;
 use Lepre\Cr\CredentialsInterface;
 use Lepre\Cr\Exception\DatabaseException;
 use Lepre\Cr\Exception\NodeTypeNotFoundException;
+use Lepre\Cr\Node;
 use Lepre\Cr\NodeType;
 use Lepre\Cr\Query\NodesQuery;
 use Lepre\Cr\Tests\AssertionsTrait;
@@ -68,6 +69,16 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Tests the identity map for the node types.
+     */
+    public function testNodeTypeIdentity()
+    {
+        $client = $this->createClient();
+
+        $this->assertSame($client->getNodeType(1), $client->getNodeType(1));
+    }
+
+    /**
      * Tests that the `getNodeType` method throws an exception if the node type does not exist.
      */
     public function testGetNodeTypeNotFound()
@@ -104,6 +115,25 @@ class ClientTest extends TestCase
         $this->assertCount(1, $nodeTypes);
         $this->assertInstanceOf(NodeType::class, $nodeTypes[0]);
         $this->assertIsPageNodeType($nodeTypes[0]);
+    }
+
+    /**
+     * Tests the identity map for the node types.
+     */
+    public function testNodeTypesIdentity()
+    {
+        $client = $this->createClient();
+        $pageNodeType = $client->getNodeType(1);
+
+        foreach ($client->getNodeTypes() as $nodeType) {
+            if ($nodeType->getId() === 1) {
+                $this->assertSame($pageNodeType, $nodeType);
+
+                return;
+            }
+        }
+
+        $this->markAsRisky();
     }
 
     public function testGetNodeTypesWhenTheDatabaseThrowsAnException()
@@ -148,6 +178,48 @@ class ClientTest extends TestCase
 
         $client = $this->createClient($connection);
         $client->findNodes($nodesQuery);
+    }
+
+    /**
+     * Tests the identity map for the nodes.
+     */
+    public function testNodesIdentity()
+    {
+        $client = $this->createClient();
+
+        $nodesById = $client->findNodes($client->createNodesQuery()->byId(1));
+        $nodesByPath = $client->findNodes($client->createNodesQuery()->byPath('/'));
+
+        $this->assertCount(1, $nodesById);
+        $this->assertCount(1, $nodesByPath);
+
+        /**
+         * @var Node $nodeById
+         * @var Node $nodeByPath
+         */
+        $nodeById = reset($nodesById);
+        $nodeByPath = reset($nodesByPath);
+
+        $this->assertSame($nodeById, $nodeByPath);
+    }
+
+    public function testNodesInternalIdentity()
+    {
+        $client = $this->createClient();
+
+        /**
+         * @var Node $nodesOne
+         * @var Node $nodesTwo
+         * @var Node $nodesThree
+         */
+        $nodesOne = $client->findNodes($client->createNodesQuery()->byId(1))[0];
+        $nodesTwo = $client->findNodes($client->createNodesQuery()->byId(2))[0];
+        $nodesThree = $client->findNodes($client->createNodesQuery()->byId(3))[0];
+
+        $this->assertSame($nodesOne->getNodeType(), $nodesTwo->getNodeType());
+        $this->assertSame($nodesOne->getNodeType(), $nodesThree->getNodeType());
+        $this->assertSame($nodesOne->getLanguage(), $nodesTwo->getLanguage());
+        $this->assertSame($nodesOne->getLanguage(), $nodesThree->getLanguage());
     }
 
     /**

@@ -43,6 +43,11 @@ final class Client implements ClientInterface
     private $credentials;
 
     /**
+     * @var IdentityMap
+     */
+    private $identityMap;
+
+    /**
      * @param Connection           $connection
      * @param CredentialsInterface $credentials
      */
@@ -50,6 +55,8 @@ final class Client implements ClientInterface
     {
         $this->connection = $connection;
         $this->credentials = $credentials;
+
+        $this->identityMap = new IdentityMap();
     }
 
     /**
@@ -194,6 +201,12 @@ final class Client implements ClientInterface
      */
     public function hydrateNodeType(array $row): NodeType
     {
+        $identity = NodeType::class . '-' . $row['nodetype_id'];
+
+        if ($this->identityMap->has($identity)) {
+            return $this->identityMap->get($identity);
+        }
+
         $nodeType = new NodeType();
 
         $hydrator = (function (array $row) {
@@ -202,6 +215,8 @@ final class Client implements ClientInterface
         })->bindTo($nodeType, NodeType::class);
 
         $hydrator($row);
+
+        $this->identityMap->set($identity, $nodeType);
 
         return $nodeType;
     }
@@ -214,6 +229,12 @@ final class Client implements ClientInterface
      */
     public function hydrateLanguage(array $row): Language
     {
+        $identity = Language::class . '-' . $row['language_id'];
+
+        if ($this->identityMap->has($identity)) {
+            return $this->identityMap->get($identity);
+        }
+
         $language = new Language();
 
         $hydrator = (function (array $row) {
@@ -222,6 +243,8 @@ final class Client implements ClientInterface
         })->bindTo($language, Language::class);
 
         $hydrator($row);
+
+        $this->identityMap->set($identity, $language);
 
         return $language;
     }
@@ -234,6 +257,12 @@ final class Client implements ClientInterface
      */
     public function hydrateNode(array $row): Node
     {
+        $identity = Node::class . '-' . $row['node_id'];
+
+        if ($this->identityMap->has($identity)) {
+            return $this->identityMap->get($identity);
+        }
+
         $node = new Node();
 
         $client = $this;
@@ -250,6 +279,8 @@ final class Client implements ClientInterface
         })->bindTo($node, Node::class);
 
         $hydrator($row);
+
+        $this->identityMap->set($identity, $node);
 
         return $node;
     }
