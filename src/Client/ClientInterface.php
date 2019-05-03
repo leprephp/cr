@@ -40,7 +40,7 @@ interface ClientInterface
     public function getNodeType(int $nodeTypeId): NodeType;
 
     /**
-     * @return array
+     * @return NodeType[]
      * @throws DatabaseException
      */
     public function getNodeTypes(): array;
@@ -64,7 +64,7 @@ interface ClientInterface
 
     /**
      * @param NodesQueryInterface $query
-     * @return array
+     * @return Node[]
      * @throws DatabaseException
      */
     public function findNodes(NodesQueryInterface $query): array;
