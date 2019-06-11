@@ -18,6 +18,7 @@ use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\ParameterType;
 use Lepre\Cr\CredentialsInterface;
 use Lepre\Cr\Exception\DatabaseException;
+use Lepre\Cr\Exception\LanguageNotFoundException;
 use Lepre\Cr\Exception\NodeTypeNotFoundException;
 use Lepre\Cr\Language;
 use Lepre\Cr\Node;
@@ -136,6 +137,81 @@ final class Client implements ClientInterface
      * @codeCoverageIgnore
      */
     public function deleteNodeType(NodeType $nodeType): ClientInterface
+    {
+        trigger_error('The method ' . __METHOD__ . ' is not implemented.', E_USER_WARNING);
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getLanguage(int $languageId): Language
+    {
+        try {
+            $sth = $this->connection->executeQuery(
+                'SELECT language_id, name AS language_name FROM cr_languages WHERE language_id = :id',
+                [
+                    'id' => $languageId,
+                ],
+                [
+                    'id' => ParameterType::INTEGER,
+                ]
+            );
+
+            $row = $sth->fetch();
+
+            if (!$row) {
+                throw new LanguageNotFoundException();
+            }
+
+            return $this->hydrateLanguage($row);
+        } catch (DBALException $e) {
+            throw new DatabaseException("An error occurred on fetching language \"{$languageId}\"", 0, $e);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getLanguages(): array
+    {
+        try {
+            $sth = $this->connection->executeQuery(
+                'SELECT language_id, name AS language_name FROM cr_languages'
+            );
+
+            $result = [];
+            foreach ($sth as $row) {
+                $result[] = $this->hydrateLanguage($row);
+            }
+
+            return $result;
+        } catch (DBALException $e) {
+            throw new DatabaseException('An error occurred on fetching languages', 0, $e);
+        }
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @todo
+     * @codeCoverageIgnore
+     */
+    public function saveLanguage(Language $language): ClientInterface
+    {
+        trigger_error('The method ' . __METHOD__ . ' is not implemented.', E_USER_WARNING);
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @todo
+     * @codeCoverageIgnore
+     */
+    public function deleteLanguage(Language $language): ClientInterface
     {
         trigger_error('The method ' . __METHOD__ . ' is not implemented.', E_USER_WARNING);
 

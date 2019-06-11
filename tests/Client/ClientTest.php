@@ -19,7 +19,9 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use Lepre\Cr\Client\Client;
 use Lepre\Cr\CredentialsInterface;
 use Lepre\Cr\Exception\DatabaseException;
+use Lepre\Cr\Exception\LanguageNotFoundException;
 use Lepre\Cr\Exception\NodeTypeNotFoundException;
+use Lepre\Cr\Language;
 use Lepre\Cr\Node;
 use Lepre\Cr\NodeType;
 use Lepre\Cr\Query\NodesQuery;
@@ -148,6 +150,100 @@ class ClientTest extends TestCase
 
         $client = $this->createClient($connection);
         $client->getNodeTypes();
+    }
+
+    /**
+     * Tests that the `getLanguage` method returns a `Language`.
+     */
+    public function testGetLanguage()
+    {
+        $client = $this->createClient();
+        $language = $client->getLanguage(1);
+
+        $this->assertIsItalian($language);
+    }
+
+    /**
+     * Tests the identity map for the languages.
+     */
+    public function testLanguageIdentity()
+    {
+        $client = $this->createClient();
+
+        $this->assertSame($client->getLanguage(1), $client->getLanguage(1));
+    }
+
+    /**
+     * Tests that the `getLanguage` method throws an exception if the language does not exist.
+     */
+    public function testGetLanguageNotFound()
+    {
+        $this->expectException(LanguageNotFoundException::class);
+
+        $client = $this->createClient();
+        $client->getLanguage(1000);
+    }
+
+    /**
+     * Tests that the `getLanguage` method throws an exception when there are database problems.
+     */
+    public function testGetLanguageWhenTheDatabaseThrowsAnException()
+    {
+        $this->expectException(DatabaseException::class);
+        $this->expectExceptionMessage('An error occurred on fetching language "1"');
+
+        /** @var Connection|\PHPUnit\Framework\MockObject\MockObject $connection */
+        $connection = $this->createMock(Connection::class);
+        $connection->expects($this->once())
+            ->method('executeQuery')
+            ->willThrowException(new DBALException());
+
+        $client = $this->createClient($connection);
+        $client->getLanguage(1);
+    }
+
+    public function testGetLanguages()
+    {
+        $client = $this->createClient();
+        $languages = $client->getLanguages();
+
+        $this->assertCount(1, $languages);
+        $this->assertInstanceOf(Language::class, $languages[0]);
+        $this->assertIsItalian($languages[0]);
+    }
+
+    /**
+     * Tests the identity map for the node types.
+     */
+    public function testLanguagesIdentity()
+    {
+        $client = $this->createClient();
+        $italianLanguage = $client->getLanguage(1);
+
+        foreach ($client->getLanguages() as $language) {
+            if ($language->getId() === 1) {
+                $this->assertSame($italianLanguage, $language);
+
+                return;
+            }
+        }
+
+        $this->markAsRisky();
+    }
+
+    public function testGetLanguagesWhenTheDatabaseThrowsAnException()
+    {
+        $this->expectException(DatabaseException::class);
+        $this->expectExceptionMessage('An error occurred on fetching languages');
+
+        /** @var Connection|\PHPUnit\Framework\MockObject\MockObject $connection */
+        $connection = $this->createMock(Connection::class);
+        $connection->expects($this->once())
+            ->method('executeQuery')
+            ->willThrowException(new DBALException());
+
+        $client = $this->createClient($connection);
+        $client->getLanguages();
     }
 
     public function testFindNodes()

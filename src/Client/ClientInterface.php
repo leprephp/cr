@@ -14,7 +14,9 @@ declare(strict_types=1);
 namespace Lepre\Cr\Client;
 
 use Lepre\Cr\Exception\DatabaseException;
+use Lepre\Cr\Exception\LanguageNotFoundException;
 use Lepre\Cr\Exception\NodeTypeNotFoundException;
+use Lepre\Cr\Language;
 use Lepre\Cr\Node;
 use Lepre\Cr\NodeType;
 use Lepre\Cr\Query\NodesQueryInterface;
@@ -56,6 +58,32 @@ interface ClientInterface
      * @return ClientInterface
      */
     public function deleteNodeType(NodeType $nodeType): ClientInterface;
+
+    /**
+     * @param int $languageId
+     * @return Language
+     * @throws DatabaseException
+     * @throws LanguageNotFoundException
+     */
+    public function getLanguage(int $languageId): Language;
+
+    /**
+     * @return Language[]
+     * @throws DatabaseException
+     */
+    public function getLanguages(): array;
+
+    /**
+     * @param Language $language
+     * @return ClientInterface
+     */
+    public function saveLanguage(Language $language): ClientInterface;
+
+    /**
+     * @param Language $language
+     * @return ClientInterface
+     */
+    public function deleteLanguage(Language $language): ClientInterface;
 
     /**
      * @return NodesQueryInterface
