@@ -40,7 +40,7 @@ final class IdentityMap
 
     /**
      * @param string      $id
-     * @param null|object $entity
+     * @param object|null $entity
      * @return $this
      */
     public function set(string $id, $entity = null)
