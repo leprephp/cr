@@ -71,6 +71,14 @@ final class Client implements ClientInterface
     /**
      * @inheritDoc
      */
+    public function createNodeType(): NodeType
+    {
+        return new NodeType();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getNodeType(int $nodeTypeId): NodeType
     {
         try {
@@ -141,6 +149,14 @@ final class Client implements ClientInterface
         trigger_error('The method ' . __METHOD__ . ' is not implemented.', E_USER_WARNING);
 
         return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function createLanguage(): Language
+    {
+        return new Language();
     }
 
     /**
@@ -221,6 +237,14 @@ final class Client implements ClientInterface
     /**
      * @inheritDoc
      */
+    public function createNode(): Node
+    {
+        return new Node();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function createNodesQuery(): NodesQueryInterface
     {
         return new NodesQuery($this->connection);
@@ -283,7 +307,7 @@ final class Client implements ClientInterface
             return $this->identityMap->get($identity);
         }
 
-        $nodeType = new NodeType();
+        $nodeType = $this->createNodeType();
 
         $hydrator = (function (array $row) {
             $this->id = (int) $row['nodetype_id'];
@@ -311,7 +335,7 @@ final class Client implements ClientInterface
             return $this->identityMap->get($identity);
         }
 
-        $language = new Language();
+        $language = $this->createLanguage();
 
         $hydrator = (function (array $row) {
             $this->id = (int) $row['language_id'];
@@ -339,7 +363,7 @@ final class Client implements ClientInterface
             return $this->identityMap->get($identity);
         }
 
-        $node = new Node();
+        $node = $this->createNode();
 
         $client = $this;
         $hydrator = (function (array $row) use ($client) {

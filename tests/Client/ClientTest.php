@@ -59,6 +59,14 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Tests that the `createNodeType` method returns a valid instance of `NodeType`.
+     */
+    public function testCreateNodeType()
+    {
+        $this->assertInstanceOf(NodeType::class, $this->createClient()->createNodeType());
+    }
+
+    /**
      * Tests that the `getNodeType` method returns a `NodeType`.
      */
     public function testGetNodeType()
@@ -153,6 +161,14 @@ class ClientTest extends TestCase
     }
 
     /**
+     * Tests that the `createLanguage` method returns a valid instance of `Language`.
+     */
+    public function testCreateLanguage()
+    {
+        $this->assertInstanceOf(Language::class, $this->createClient()->createLanguage());
+    }
+
+    /**
      * Tests that the `getLanguage` method returns a `Language`.
      */
     public function testGetLanguage()
@@ -244,6 +260,14 @@ class ClientTest extends TestCase
 
         $client = $this->createClient($connection);
         $client->getLanguages();
+    }
+
+    /**
+     * Tests that the `createNode` method returns a valid instance of `Node`.
+     */
+    public function testCreateNode()
+    {
+        $this->assertInstanceOf(Node::class, $this->createClient()->createNode());
     }
 
     public function testFindNodes()

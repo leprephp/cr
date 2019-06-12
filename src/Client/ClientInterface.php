@@ -34,6 +34,11 @@ interface ClientInterface
     public function getUserId(): int;
 
     /**
+     * @return NodeType
+     */
+    public function createNodeType(): NodeType;
+
+    /**
      * @param int $nodeTypeId
      * @return NodeType
      * @throws DatabaseException
@@ -60,6 +65,11 @@ interface ClientInterface
     public function deleteNodeType(NodeType $nodeType): ClientInterface;
 
     /**
+     * @return Language
+     */
+    public function createLanguage(): Language;
+
+    /**
      * @param int $languageId
      * @return Language
      * @throws DatabaseException
@@ -84,6 +94,11 @@ interface ClientInterface
      * @return ClientInterface
      */
     public function deleteLanguage(Language $language): ClientInterface;
+
+    /**
+     * @return Node
+     */
+    public function createNode(): Node;
 
     /**
      * @return NodesQueryInterface
