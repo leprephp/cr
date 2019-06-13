@@ -51,6 +51,11 @@ interface SessionInterface
     public function createNodesQuery(): NodesQueryInterface;
 
     /**
+     * @return Node
+     */
+    public function createNode(): Node;
+
+    /**
      * @return NodeTypesManager
      */
     public function getNodeTypesManager(): NodeTypesManager;

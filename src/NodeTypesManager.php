@@ -58,6 +58,14 @@ final class NodeTypesManager
     }
 
     /**
+     * @return NodeType
+     */
+    public function createNodeType(): NodeType
+    {
+        return $this->client->createNodeType();
+    }
+
+    /**
      * @param NodeType $nodeType
      * @return $this
      * @throws CRException

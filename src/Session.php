@@ -91,6 +91,14 @@ final class Session implements SessionInterface
     /**
      * @inheritDoc
      */
+    public function createNode(): Node
+    {
+        return $this->client->createNode();
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getNodeTypesManager(): NodeTypesManager
     {
         if (null === $this->nodeTypesManager) {
