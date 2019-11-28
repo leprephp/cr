@@ -17,7 +17,7 @@ $ composer require lepre/cr
 
 ### Requirements
 
-This project works with PHP 7.1+ and MySQL 5.7+
+This project works with PHP 7.2+ and MySQL 5.7+
 
 ### Run tests
 
