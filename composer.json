@@ -23,7 +23,7 @@
         "issues": "https://github.com/leprephp/cr/issues"
     },
     "require": {
-        "php": "^7.2",
+        "php": "^8.0",
         "ext-pdo": "*",
         "doctrine/dbal": "^2.5"
     },
