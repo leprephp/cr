@@ -28,7 +28,7 @@
         "doctrine/dbal": "^2.5"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.0",
+        "phpunit/phpunit": "^9.5",
         "php-coveralls/php-coveralls": "^2.1"
     },
     "autoload": {
